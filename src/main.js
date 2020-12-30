@@ -2,7 +2,9 @@
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 
-const generate = require("./generate");
+var pjson = require('../package.json');
+
+const generate = require("./tasks/generate");
 
 
 yargs(hideBin(process.argv))
@@ -19,7 +21,7 @@ yargs(hideBin(process.argv))
   if (argv.verbose) {
     console.info(`starting generation with args: "${argv['project-choice']}" "${argv['project-name']}"`)
   }
-  generate(argv);
+  generate(argv, pjson);
 })
 .option('verbose', {
   alias: 'v',
