@@ -1,0 +1,26 @@
+---
+keywords: static site, effable
+title: Multi-Hbs effable generated static site
+description: Static site made with effable and generated with effable-cli
+priority: 0.6
+
+collection:
+  source: posts.*.tags.*
+---
+{{#>_layouts.base}}
+  <hr/>
+  <br/>
+
+  {{#each (routes-each routes.news "date")}}
+    {{#contains tags ../content}}
+      {{>components.blog.post}}
+    {{/contains}}
+  {{else}}
+    <p>Non ci sono news recenti!</p>
+  {{/each}}
+{{/_layouts.news}}
+
+{{#*inline "bottom_section"}}
+  <h2>Bottom section nested inside blog post partial</h2>
+  <br/>
+{{/bottom_section}}

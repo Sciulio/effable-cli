@@ -1,1 +1,23 @@
-<html></html>
+---
+keywords: static site, effable
+title: Multi-Hbs effable generated static site
+description: Static site made with effable and generated with effable-cli
+priority: 1.0
+---
+{{#>layouts.base}}
+  <h2>{{data.otherdata.siteName}}</h2>
+  <p>
+    Static site made with effable and generated with effable-cli
+  </p>
+
+  <div class="row">
+    <aside class="column" style="background-color:#aaa;color:#0F4C81">
+      <h2>Column 1</h2>
+      <p>Some text..</p>
+    </aside>
+    <div class="column" style="background-color:#bbb;">
+      <h2>Column 2</h2>
+      <p>Some text..</p>
+    </div>
+  </div>
+{{/layouts.base}}
