@@ -4,7 +4,7 @@ title: Multi-Hbs effable generated static site
 description: Static site made with effable and generated with effable-cli
 priority: 0.8
 ---
-{{#>_layouts.news}}
+{{#>layouts.base}}
   <h1>Posts</h1>
 
   <hr />
@@ -17,9 +17,9 @@ priority: 0.8
       <p>There ar no posts for now!</p>
     {{/each}}
   </div>
-{{/_layouts.news}}
+{{/layouts.base}}
 
 {{#*inline "bottom_section"}}
   <h2>Bottom section nested inside blog post partial</h2>
   <br/>
-{{/bottom_section}}
+{{/inline}}

@@ -1,4 +1,3 @@
-
 ---
 keywords: static site, effable
 title: Multi-Hbs effable generated static site - markdown Blog Post 1

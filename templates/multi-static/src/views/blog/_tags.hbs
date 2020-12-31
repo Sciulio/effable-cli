@@ -7,20 +7,20 @@ priority: 0.6
 collection:
   source: posts.*.tags.*
 ---
-{{#>_layouts.base}}
+{{#>layouts.base}}
   <hr/>
   <br/>
 
-  {{#each (routes-each routes.news "date")}}
+  {{#each (routes-each routes.posts "date")}}
     {{#contains tags ../content}}
       {{>components.blog.post}}
     {{/contains}}
   {{else}}
     <p>Non ci sono news recenti!</p>
   {{/each}}
-{{/_layouts.news}}
+{{/layouts.base}}
 
 {{#*inline "bottom_section"}}
   <h2>Bottom section nested inside blog post partial</h2>
   <br/>
-{{/bottom_section}}
+{{/inline}}
