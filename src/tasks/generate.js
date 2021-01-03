@@ -21,7 +21,7 @@ const validateProjectName = function(input) {
 
 const generationQuestions = [
   {
-    name: 'project-choice',
+    name: 'template-name',
     type: 'list',
     message: 'What project template would you like to generate?',
     choices: templatesFolders
@@ -45,12 +45,12 @@ module.exports = (argv, { version }) => {
   let {
     verbose,
     debug,
-    'project-choice': projectChoice,
+    'template-name': templateName,
     'project-name': projectName
   } = argv;
 
-  if (projectChoice) {
-    if (!templatesFolders.some(({ name }) => name == projectChoice)) {
+  if (templateName) {
+    if (!templatesFolders.some(({ name }) => name == templateName)) {
       throw "Project type not existing!";
     }
 
@@ -67,15 +67,17 @@ module.exports = (argv, { version }) => {
   }
 
   let outputPath;
+  let template;
 
   return inquirer
   .prompt(generationQuestions)
   .then(answers => {
-    projectChoice = projectChoice || answers['project-choice'];
+    templateName = templateName || answers['template-name'];
     projectName = projectName || answers['project-name'];
 
-    const templatePath = join(templatesPath, projectChoice);
+    const templatePath = join(templatesPath, templateName);
     outputPath = resolve(executingPath, projectName);
+    template = templatesFolders.find(({ name }) => name == templateName);
 
     const ioItems = glob.sync(join(templatePath, '**/*'));
 
@@ -83,7 +85,7 @@ module.exports = (argv, { version }) => {
   from  '${templatePath}'
   to    '${outputPath}'
   ` ));
-
+    
     // copy source
     ioItems
     .forEach(srcItem => {
@@ -91,6 +93,7 @@ module.exports = (argv, { version }) => {
 
       const srcFolder = srcStats.isDirectory() ? srcItem : dirname(srcItem);
       const relFolder = relative(templatePath, srcFolder);
+
       const outFolder = join(outputPath, relFolder);
       const outFile = srcStats.isFile() ? join(outFolder, basename(srcItem)) : null;
 
@@ -120,7 +123,7 @@ module.exports = (argv, { version }) => {
     verbose,
     debug,
     version,
-    projectChoice,
+    template,
     projectName
   }))
   .then((pj) => {
@@ -133,10 +136,11 @@ module.exports = (argv, { version }) => {
     );
   })
   .then(() => console.log(chalk.green("\tpackage.json file persisted!")))
-  .then(() => console.log(`${chalk.greenBright("\nInstalling package.json dependancies")} ${chalk.cyan(`(changing current directory to '${outputPath}')`)}`))
+  .then(() => console.log(`${chalk.greenBright("\nInstalling package.json dependencies")} ${chalk.cyan(`(changing current directory to '${outputPath}')`)}`))
   .then(() => installPackageJson({
     verbose,
     debug,
+    template,
     outputPath
   }))
   .then(() => console.log(chalk.green("\tpackages installed!")))

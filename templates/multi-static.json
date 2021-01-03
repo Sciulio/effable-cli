@@ -1,8 +1,14 @@
 {
+  "version": "1.0.0",
   "info": "Starting template. It contains handlebarsjs for views and partial, markdown and yaml for data and content.",
   "alert": null,
   "inherits": null,
   "package": {
-    "dependancies": []
+    "scripts": {
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+    }
   }
 }

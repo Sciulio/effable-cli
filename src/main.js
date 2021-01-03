@@ -19,9 +19,9 @@ const executeTask = async (task, argv) => {
 };
 
 yargs(hideBin(process.argv))
-.command('generate [project-choice] [project-name]', 'start template generation', (yargs) => {
+.command('generate [template-name] [project-name]', 'start template generation', (yargs) => {
   yargs
-  .positional('project-choice', {
+  .positional('template-name', {
     describe: 'project\'s type name',
     //default: 5000
   })
@@ -30,7 +30,7 @@ yargs(hideBin(process.argv))
   })
 }, (argv) => {
   if (argv.verbose) {
-    console.info(chalk.cyan(`starting generation with args: "${argv['project-choice']}" "${argv['project-name']}"`))
+    console.info(chalk.cyan(`starting generation with args: "${argv['template-name']}" "${argv['project-name']}"`))
   }
 
   executeTask(generate, argv);
