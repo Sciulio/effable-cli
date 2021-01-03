@@ -20,7 +20,6 @@ module.exports = ({
         if (err) {
           return rej(err);
         }
-        console.log('Packages installed');
         res();
       });
     }

@@ -40,7 +40,7 @@ const generationQuestions = [
 ];
 
 module.exports = (argv, { version }) => {
-  console.log("Starting generate template task!");
+  console.log("Starting generate template task!\t");
 
   let {
     verbose,
@@ -71,8 +71,6 @@ module.exports = (argv, { version }) => {
   return inquirer
   .prompt(generationQuestions)
   .then(answers => {
-    debug && console.log(answers);
-
     projectChoice = projectChoice || answers['project-choice'];
     projectName = projectName || answers['project-name'];
 
@@ -81,9 +79,10 @@ module.exports = (argv, { version }) => {
 
     const ioItems = glob.sync(join(templatePath, '**/*'));
 
-    console.log(" - templatePath:", templatePath)
-    console.log(" - outputPath:", outputPath)
-    verbose && (console.log(" - ioItems") || console.log(ioItems))
+    console.log(chalk.greenBright(`\nCopying template's source:
+  from  '${templatePath}'
+  to    '${outputPath}'
+  ` ));
 
     // copy source
     ioItems
@@ -91,12 +90,16 @@ module.exports = (argv, { version }) => {
       const srcStats = statSync(srcItem);
 
       const srcFolder = srcStats.isDirectory() ? srcItem : dirname(srcItem);
-      const outFolder = join(outputPath, relative(templatePath, srcFolder));
+      const relFolder = relative(templatePath, srcFolder);
+      const outFolder = join(outputPath, relFolder);
       const outFile = srcStats.isFile() ? join(outFolder, basename(srcItem)) : null;
 
-      console.log(' - srcItem', srcItem)
-      outFile || console.log(' - - outFolder', outFolder)
-      outFile && console.log(' - - outFile', outFile);
+      console.log(' - ', relative(templatePath, srcItem));
+      if (verbose) {
+        console.log(chalk.cyan('   - from        ', srcItem));
+        outFile || console.log(chalk.cyan('   - out [folder]', outFolder));
+        outFile && console.log(chalk.cyan('   - out [file]  ', outFile));
+      }
 
       if (!existsSync(outFolder)) {
         mkdirSync(outFolder, {
@@ -111,7 +114,8 @@ module.exports = (argv, { version }) => {
       }
     });
   })
-  .then(() => console.log(chalk.green("\nGenerate package.json file")))
+  .then(() => console.log(chalk.green("\ttemplate's source copied!")))
+  .then(() => console.log(chalk.greenBright("\nGenerate package.json file")))
   .then(() => generatePackageJson({
     verbose,
     debug,
@@ -120,18 +124,23 @@ module.exports = (argv, { version }) => {
     projectName
   }))
   .then((pj) => {
-    console.log(chalk.green("\nWriting package.json file"))
+    console.log(chalk.greenBright("\nWriting package.json file"))
     verbose && console.log(pj)
-    writeFileSync(join(outputPath, 'package.json'), JSON.stringify(pj, null, 2))
+
+    writeFileSync(
+      join(outputPath, 'package.json'),
+      JSON.stringify(pj, null, 2)
+    );
   })
-  .then(() => console.log(chalk.greenBright("\tpackage.json file persisted!")))
-  .then(() => console.log(`${chalk.green("\nInstalling package.json dependancies")} ${chalk.cyan(`(changing current directory to '${outputPath}')`)}`))
+  .then(() => console.log(chalk.green("\tpackage.json file persisted!")))
+  .then(() => console.log(`${chalk.greenBright("\nInstalling package.json dependancies")} ${chalk.cyan(`(changing current directory to '${outputPath}')`)}`))
   .then(() => installPackageJson({
     verbose,
     debug,
     outputPath
   }))
+  .then(() => console.log(chalk.green("\tpackages installed!")))
   .then(function() {
-    console.log("SUCCESS!");
+    console.log(chalk.bgGreen.white("\n\nSUCCESS!"));
   });
 };
