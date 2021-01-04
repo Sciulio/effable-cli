@@ -1,0 +1,14 @@
+<h4>{{metadata.title}}</h4>
+<h6>{{metadata.description}}</h6>
+<i>{{metadata.date}}</i>
+<img src="{{host.resxUrl}}{{metadata.description}}" alt="" />
+
+{{#if body}}
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="heading-title text-justify">
+        {{{body}}}
+      </div>
+    </div>
+  </div>
+{{/if}}
