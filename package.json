@@ -1,5 +1,5 @@
 {
-  "name": "effable-cli",
+  "name": "@sciulio/effable-cli",
   "version": "1.0.0",
   "description": "Project generator for effable static site generator",
   "main": "src/main.js",
