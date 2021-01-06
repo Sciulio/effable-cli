@@ -11,7 +11,7 @@ collection:
   <hr/>
   <br/>
 
-  {{#each (routes-each routes.posts "date")}}
+  {{#each (routes-each routes.blog "date")}}
     {{#contains tags ../content}}
       {{>components.blog.post}}
     {{/contains}}

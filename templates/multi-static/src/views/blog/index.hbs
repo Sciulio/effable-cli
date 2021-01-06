@@ -11,7 +11,7 @@ priority: 0.8
   <br />
 
   <div>
-    {{#each (routes-each routes.posts "date")}}
+    {{#each (routes-each routes.blog "date")}}
       {{>components.blog.post}}
     {{else}}
       <p>There ar no posts for now!</p>
