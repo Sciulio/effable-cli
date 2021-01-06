@@ -146,5 +146,11 @@ module.exports = (argv, { version }) => {
   .then(() => console.log(chalk.green("\tpackages installed!")))
   .then(function() {
     console.log(chalk.bgGreen.white("\n\nSUCCESS!"));
+
+    const { config: { notes } } = template;
+    if (notes) {
+      console.log(chalk.cyan(" - notes from template:"));
+      console.log(chalk.cyanBright(notes));
+    }
   });
 };
