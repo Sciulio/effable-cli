@@ -43,6 +43,11 @@ build({
     //require('handlebars-helpers')();
     //require('handlebars-layouts').register(hbs);
 
+    // example helper
+    hbs.registerHelper('contains', function (value, contains) {
+      return ~value.indexOf(contains);
+    });
+
     return hbs;
   }
 })
