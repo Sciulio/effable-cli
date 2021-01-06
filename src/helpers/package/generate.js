@@ -62,7 +62,9 @@ module.exports = async ({
     // todo: get other packages from template
     //"handlebars-helpers": "^0.10.0",
   }, additionalDependencies),
-  "devDependencies": Object.assign({}, additionalDevDependencies),
+  "devDependencies": Object.assign({
+    "npm-watch": "^0.7.0"
+  }, additionalDevDependencies),
   /*"devDependencies": {
     "concurrently": "^5.3.0",
     "npm-watch": "^0.7.0"
