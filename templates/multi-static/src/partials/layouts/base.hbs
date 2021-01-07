@@ -11,19 +11,19 @@
       <h1 class="w3-xxxlarge">{{data.otherdata.siteName}}</h1>
 
       <ul>
-        {{#each (routes-flat routes 'pageOrder')}}
+        {{#each (routes-flat routes 'page.order')}}
           {{#unless __isContent}}
-          {{#if pageName}}
+          {{#if page.name}}
             <li class="nav-item {{route-isCurrent 'active' url}}">
               {{#if (route-isCurrent true url)}}
                 <a class="nav-link">
                   <b>
-                    {{pageName}}
+                    {{page.name}}
                   </b>
                 </a>
               {{else}}
                 <a class="nav-link" href="{{../host.baseUrl}}{{url}}">
-                  {{pageName}}
+                  {{page.name}}
                 </a>
               {{/if}}
             </li>
@@ -32,11 +32,11 @@
         {{/each}}
       </ul>
       
-      <h2>{{metadata.pageMetadata_title}}</h2>
+      <h2>{{metadata.page.title}}</h2>
     </header>
 
     {{> @partial-block }}
-
+    
     <section>
       {{#> bottom_section}}{{/bottom_section}}
     </section>
