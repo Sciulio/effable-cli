@@ -11,23 +11,26 @@
       <h1 class="w3-xxxlarge">{{data.otherdata.siteName}}</h1>
 
       <ul>
-        {{#each (routes-flat routes)}}
+        {{#each (routes-flat routes 'pageOrder')}}
           {{#unless __isContent}}
           {{#if pageName}}
             <li class="nav-item {{route-isCurrent 'active' url}}">
-              <a class="nav-link" href="{{../host.baseUrl}}{{url}}">
-                {{#if (route-isCurrent true url)}}
-                  *
-                {{/if}}
-                {{pageName}}
-              </a>
+              {{#if (route-isCurrent true url)}}
+                <a class="nav-link">
+                  <b>
+                    {{pageName}}
+                  </b>
+                </a>
+              {{else}}
+                <a class="nav-link" href="{{../host.baseUrl}}{{url}}">
+                  {{pageName}}
+                </a>
+              {{/if}}
             </li>
           {{/if}}
           {{/unless}}
         {{/each}}
       </ul>
-      
-      <hr/>
       
       <h2>{{metadata.pageMetadata_title}}</h2>
     </header>

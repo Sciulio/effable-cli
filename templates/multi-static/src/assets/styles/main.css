@@ -34,3 +34,50 @@ aside.column + .column {
     width: 100%;
   }
 }
+
+
+/*
+  clumsily stolen and adapted from:
+  https://www.w3schools.com/html/tryit.asp?filename=tryhtml_lists_menu
+*/
+
+header ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333333;
+}
+
+header ul li {
+  float: left;
+}
+
+header ul li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+
+header ul li a:hover {
+  background-color: #555555;
+}
+
+
+/*
+  custom
+*/
+
+header ul li.active,
+header ul li.active a:hover {
+  background-color: #999;
+  cursor: default;
+}
+
+section {
+  margin: auto;
+  width: 80%;
+  min-width: 400px;
+}

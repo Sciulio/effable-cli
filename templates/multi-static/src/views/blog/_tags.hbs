@@ -8,23 +8,22 @@ collection:
   source: posts.*.tags.*
 ---
 {{#>layouts.base}}
-  <hr/>
-  <br/>
-
   <h2>filtered by tag: <i>{{content}}</i></h2>
 
   <br/>
 
-  {{#each (routes-each routes.blog "date")}}
-    {{#if (contains tags ../content)}}
-      <h3>
-        <a href="{{location}}">{{title}}</a>
-      </h3>
-      <small>{{description}}</small>
-    {{/if}}
-  {{else}}
-    <p>Non ci sono news recenti!</p>
-  {{/each}}
+  <section>
+    {{#each (routes-each routes.blog "date")}}
+      {{#if (contains tags ../content)}}
+        <h3>
+          <a href="{{location}}">{{title}}</a>
+        </h3>
+        <small>{{description}}</small>
+      {{/if}}
+    {{else}}
+      <p>Non ci sono news recenti!</p>
+    {{/each}}
+  </section>
 {{/layouts.base}}
 
 {{#*inline "bottom_section"}}
