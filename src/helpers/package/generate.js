@@ -58,7 +58,7 @@ module.exports = async ({
   "dependencies": Object.assign({
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
-    "@sciulio/effable": "^1.7.7",
+    "@sciulio/effable": "^1.7.9",
     // todo: get other packages from template
     //"handlebars-helpers": "^0.10.0",
   }, additionalDependencies),
