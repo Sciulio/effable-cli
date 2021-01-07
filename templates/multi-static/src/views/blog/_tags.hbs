@@ -11,16 +11,25 @@ collection:
   <hr/>
   <br/>
 
+  <h2>filtered by tag: <i>{{content}}</i></h2>
+
+  <br/>
+
   {{#each (routes-each routes.blog "date")}}
-    {{#contains tags ../content}}
-      {{>components.blog.post}}
-    {{/contains}}
+    {{#if (contains tags ../content)}}
+      <h3>
+        <a href="{{location}}">{{title}}</a>
+      </h3>
+      <small>{{description}}</small>
+    {{/if}}
   {{else}}
     <p>Non ci sono news recenti!</p>
   {{/each}}
 {{/layouts.base}}
 
 {{#*inline "bottom_section"}}
-  <h2>Bottom section nested inside blog post partial</h2>
+  <br/>
+  <br/>
+  <h5>Bottom section nested inside blog post partial</h5>
   <br/>
 {{/inline}}

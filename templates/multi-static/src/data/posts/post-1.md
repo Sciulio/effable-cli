@@ -9,3 +9,5 @@ tags: ['tag', 'tagtag']
 ### Blog post n° 1 markdown
 
 Little to say
+Hi
+Bye

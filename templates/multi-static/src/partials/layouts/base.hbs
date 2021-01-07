@@ -9,6 +9,24 @@
   <body>
     <header class="w3-container w3-theme" style="padding:64px 32px">
       <h1 class="w3-xxxlarge">{{data.otherdata.siteName}}</h1>
+
+      <ul>
+        {{#each (routes-flat routes)}}
+          {{#unless __isContent}}
+          {{#if pageName}}
+            <li class="nav-item {{route-isCurrent 'active' url}}">
+              <a class="nav-link" href="{{../host.baseUrl}}{{url}}">
+                {{#if (route-isCurrent true url)}}
+                  *
+                {{/if}}
+                {{pageName}}
+              </a>
+            </li>
+          {{/if}}
+          {{/unless}}
+        {{/each}}
+      </ul>
+      
       <hr/>
       
       <h2>{{metadata.pageMetadata_title}}</h2>

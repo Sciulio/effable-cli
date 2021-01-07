@@ -3,19 +3,41 @@ keywords: static site, effable
 title: Multi-Hbs effable generated static site
 description: Static site made with effable and generated with effable-cli
 priority: 0.8
+
+pageName: Posts
 ---
 {{#>layouts.base}}
-  <h1>Posts</h1>
+  <h2>Posts</h2>
 
-  <hr />
   <br />
 
-  <div>
-    {{#each (routes-each routes.blog "date")}}
-      {{>components.blog.post}}
-    {{else}}
-      <p>There ar no posts for now!</p>
-    {{/each}}
+  <div class="row">
+    <aside class="column" style="background-color:#aaa;color:#0F4C81">
+      <ul>
+        {{#each (routes-binded-each routes.blog.tags)}}
+          <li>
+            <a class="nav-link" href="{{location}}">
+              {{title}} - {{@key}}
+            </a>
+          </li>
+        {{else}}
+          <p>There ar no tags for now!</p>
+        {{/each}}
+      </ul>
+    </aside>
+    <div class="column" style="background-color:#bbb;">
+      <ul>
+        {{#each (routes-each routes.blog "date")}}
+          <li>
+            <a class="nav-link" href="{{location}}">
+              {{title}}
+            </a>
+          </li>
+        {{else}}
+          <p>There ar no posts for now!</p>
+        {{/each}}
+      </ul>
+    </div>
   </div>
 {{/layouts.base}}
 
