@@ -8,15 +8,15 @@ collection: posts/*.md
 type: 'post'
 ---
 {{#>layouts.base}}
-  <section>
-    <img class="img-fluid" src="{{host.resxUrl}}{{metadata.hero}}" alt="">
-      <div class="date-blog-up">
-        <!-- <h1>{{metadata.title}}</h1> -->
-        {{metadata.date}}
-      </div>
-    </div>
-    <div class="inner-blog-detail details-page">
-      {{{body}}}
-    </div>
-  </section>
+<section>
+  <img class="img-fluid" src="{{@root.host.resxUrl}}{{metadata.hero}}" alt="" />
+  <div class="date-blog-up">
+    <!-- <h1>{{metadata.title}}</h1> -->
+    {{metadata.date}}
+  </div>
+  </div>
+  <div class="inner-blog-detail details-page">
+    {{{body}}}
+  </div>
+</section>
 {{/layouts.base}}
