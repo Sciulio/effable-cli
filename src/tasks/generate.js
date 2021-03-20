@@ -4,6 +4,7 @@ const inquirer = require('inquirer');
 const glob = require("glob");
 const generatePackageJson = require('../helpers/package/generate');
 const installPackageJson = require('../helpers/package/installs');
+const copySourceFactory = require('../helpers/source/copy');
 const chalk = require('chalk');
 
 
@@ -88,34 +89,8 @@ module.exports = (argv, { version }) => {
     
     // copy source
     ioItems
-    .forEach(srcItem => {
-      const srcStats = statSync(srcItem);
-
-      const srcFolder = srcStats.isDirectory() ? srcItem : dirname(srcItem);
-      const relFolder = relative(templatePath, srcFolder);
-
-      const outFolder = join(outputPath, relFolder);
-      const outFile = srcStats.isFile() ? join(outFolder, basename(srcItem)) : null;
-
-      console.log(' - ', relative(templatePath, srcItem));
-      if (verbose) {
-        console.log(chalk.cyan('   - from        ', srcItem));
-        outFile || console.log(chalk.cyan('   - out [folder]', outFolder));
-        outFile && console.log(chalk.cyan('   - out [file]  ', outFile));
-      }
-
-      if (!existsSync(outFolder)) {
-        mkdirSync(outFolder, {
-          recursive: true
-        });
-      }
-
-      if (outFile) {
-        const outFile = join(outFolder, basename(srcItem));
-
-        copyFileSync(srcItem, outFile);
-      }
-    });
+    .forEach(copySourceFactory(templatePath, outputPath, verbose))
+    ;
   })
   .then(() => console.log(chalk.green("\ttemplate's source copied!")))
   .then(() => console.log(chalk.greenBright("\nGenerate package.json file")))
