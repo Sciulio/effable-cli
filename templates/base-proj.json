@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "info": "Base template to start with. It containsroot folder structure, npm useful packages and scripts to start develop an eFFable site.",
+  "alert": null,
+  "notes": [
+    "To build project run npm scripts with 'npm run build'.",
+    "To debug 'npm run debug' to run watcher to source files to rebuild project whenever a file changes.",
+    "To do a production build configure 'SERVING_URL_DOMAIN' in your .env.production and then run 'npm run build'."
+  ],
+  "dependencies": {},
+  "package": {
+    "scripts": {
+      "debug-build": "cross-env NODE_ENV=development  node -r dotenv/config ./build.js",
+      "debug-watch": "npm-watch debug-build",
+      "build": "cross-env NODE_ENV=production  node -r dotenv/config ./build.js dotenv_config_path=./.env.production",
+      "start": "npm run debug-watch"
+    },
+    "watch": {
+      "debug-build": "./src/**/*.*"
+    },
+    "dependencies": {
+      "@sciulio/effable": "^1.10.2",
+      "cross-env": "^7.0.3",
+      "dotenv": "^8.2.0"
+    },
+    "devDependencies": {
+      "npm-watch": "^0.9.0"
+    }
+  }
+}

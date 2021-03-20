@@ -1,11 +1,13 @@
 const { readdirSync, mkdirSync, existsSync, statSync, writeFileSync, copyFileSync, readFileSync } = require('fs');
 const { resolve, join, normalize, dirname, relative, basename, extname } = require('path');
+
 const inquirer = require('inquirer');
 const glob = require("glob");
+const chalk = require('chalk');
+
 const generatePackageJson = require('../helpers/package/generate');
 const installPackageJson = require('../helpers/package/installs');
 const copySourceFactory = require('../helpers/source/copy');
-const chalk = require('chalk');
 
 
 const executingPath = process.cwd();
@@ -77,20 +79,21 @@ module.exports = (argv, { version }) => {
     projectName = projectName || answers['project-name'];
 
     const templatePath = join(templatesPath, templateName);
+
     outputPath = resolve(executingPath, projectName);
     template = templatesFolders.find(({ name }) => name == templateName);
 
-    const ioItems = glob.sync(join(templatePath, '**/*'));
+    const ioItems = glob.sync(join(templatePath, '**/*'), {
+      dot: true
+    });
 
     console.log(chalk.greenBright(`\nCopying template's source:
   from  '${templatePath}'
   to    '${outputPath}'
   ` ));
     
-    // copy source
     ioItems
-    .forEach(copySourceFactory(templatePath, outputPath, verbose))
-    ;
+    .forEach(copySourceFactory(templatePath, outputPath, verbose));
   })
   .then(() => console.log(chalk.green("\ttemplate's source copied!")))
   .then(() => console.log(chalk.greenBright("\nGenerate package.json file")))

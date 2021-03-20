@@ -1,9 +1,13 @@
 {
-  "version": "1.0.0",
-  "inherits": null,
+  "version": "1.0.1",
   "info": "Starting template. It contains handlebarsjs for views and partial, markdown and yaml for data and content.",
   "alert": null,
-  "notes": "To build project run npm scripts with 'npm run build'.\nTo debug 'npm run debug' to run watcher to source files to rebuild project whenever a file changes.",
+  "notes": ["Hi bro!"],
+  "dependencies": {
+    "base-proj": {
+      "exceptions": {}
+    }
+  },
   "package": {
     "scripts": {
     },
