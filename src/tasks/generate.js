@@ -5,18 +5,16 @@ const inquirer = require('inquirer');
 const glob = require("glob");
 const chalk = require('chalk');
 
+const { lookup } = require('../helpers/templates/factory');
 const generatePackageJson = require('../helpers/package/generate');
 const installPackageJson = require('../helpers/package/installs');
 const copySourceFactory = require('../helpers/source/copy');
+const scrapeFiles = require('../helpers/source/scrape');
 
 
 const executingPath = process.cwd();
 const templatesPath = normalize(join(__dirname, '../../templates'));
-const templatesFolders = glob.sync(join(templatesPath, "*.json"))
-.map(filePath => ({
-  name: basename(filePath, extname(filePath)),
-  config: JSON.parse(readFileSync(filePath).toString())
-}));
+const templatesFolders = lookup(templatesPath);
 
 const validateProjectName = function(input) {
   return !!(/^([A-Za-z\-\_\d])+$/.test(input))  || 'Project name may only include letters, numbers, underscores and hashes.';
@@ -83,17 +81,23 @@ module.exports = (argv, { version }) => {
     outputPath = resolve(executingPath, projectName);
     template = templatesFolders.find(({ name }) => name == templateName);
 
-    const ioItems = glob.sync(join(templatePath, '**/*'), {
-      dot: true
-    });
+    [
+      ...template.dependencies,
+      template
+    ]
+    .forEach(({ name, path: templatePath }) => {
+      const ioItems = glob.sync(join(templatePath, '**/*'), {
+        dot: true
+      });
 
-    console.log(chalk.greenBright(`\nCopying template's source:
+      console.log(chalk.greenBright(`\nCopying template's '${name}' source:
   from  '${templatePath}'
   to    '${outputPath}'
-  ` ));
-    
-    ioItems
-    .forEach(copySourceFactory(templatePath, outputPath, verbose));
+    ` ));
+      
+      ioItems
+      .forEach(copySourceFactory(templatePath, outputPath, verbose));
+    });
   })
   .then(() => console.log(chalk.green("\ttemplate's source copied!")))
   .then(() => console.log(chalk.greenBright("\nGenerate package.json file")))
