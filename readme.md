@@ -12,5 +12,5 @@ npm install -g @sciulio/effable-cli
 ## Usage
 
 ```
-effable-cli [--version] [--debug] generate [template-name [project-name]]
+effable-cli [-v|--verbose] [-d|--debug] generate [template-name [project-name]]
 ```

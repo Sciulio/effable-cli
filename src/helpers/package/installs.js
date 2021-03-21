@@ -19,12 +19,17 @@ module.exports = ({
     default: false
   });
 
+  console.log(chalk.cyan(`\tchanging current directory to '${outputPath}'`));
+
   if (!userResponse) {
     res(false);
     return;
   }
 
-  console.log(chalk.cyan(`\tchanging current directory to '${outputPath}'`));
+  if (debug) {
+    res(true);
+    return;
+  }
 
   process.chdir(outputPath);
 

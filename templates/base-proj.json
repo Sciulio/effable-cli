@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "info": "Base template to start with. It containsroot folder structure, npm useful packages and scripts to start develop an eFFable site.",
+  "info": "Base template to start with. It contains root folder structure, npm useful packages and scripts to start develop an eFFable site.",
   "alert": null,
   "notes": [
     "To build project run npm scripts with 'npm run build'.",

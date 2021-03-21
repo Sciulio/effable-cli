@@ -8,7 +8,7 @@ const chalk = require('chalk');
 const { lookup, expand } = require('../helpers/templates/factory');
 const generatePackageJson = require('../helpers/package/generate');
 const installPackageJson = require('../helpers/package/installs');
-const copySourceFactory = require('../helpers/source/copy');
+const copySourceFiles = require('../helpers/source/copy');
 
 
 const executingPath = process.cwd();
@@ -75,29 +75,18 @@ module.exports = (argv, { version }) => {
     templateName = templateName || answers['template-name'];
     projectName = projectName || answers['project-name'];
 
-    const templatePath = join(templatesPath, templateName);
-
     outputPath = resolve(executingPath, projectName);
-    template = templatesFolders.find(({ name }) => name == templateName);
     template = expand(templateName, templatesFolders);
-
-    console.log("tCtx");
-    console.log(template);
-
-    Object.entries(template.templates)
-    .forEach(([ templateName, templatePath ]) => {
-      const ioItems = glob.sync(join(templatePath, '**/*'), {
-        dot: true
-      });
-
-      console.log(chalk.greenBright(`\nCopying template's '${templateName}' source:
-  from  '${templatePath}'
-  to    '${outputPath}'`));
-      
-      ioItems
-      .forEach(copySourceFactory(templatePath, outputPath, verbose));
-    });
   })
+  .then(() => console.log(chalk.greenBright("\nCopying source files")))
+  .then(() => copySourceFiles({
+    verbose,
+    debug,
+    version,
+    template,
+    projectName,
+    outputPath
+  }))
   .then(() => console.log(chalk.green("\ttemplate's source copied!")))
   .then(() => console.log(chalk.greenBright("\nGenerate package.json file")))
   .then(() => generatePackageJson({

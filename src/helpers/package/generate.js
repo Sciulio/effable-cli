@@ -18,14 +18,8 @@ module.exports = async ({
   version,
   template: {
     name: templateName,
-    //config: {
-      version: templateVersion,
-      package/*: {
-        scripts: additionalScripts,
-        dependencies: additionalDependencies,
-        devDependencies: additionalDevDependencies
-      }*/
-    //},
+    version: templateVersion,
+    package
   },
   projectName
 }) => ({
@@ -42,7 +36,7 @@ module.exports = async ({
     "node": ">=4"
   },
   "license": await askUser("license", 'MIT'),
-  "keywords": (await askUser("keywords", '')).split(" "),
+  "keywords": (await askUser("keywords", '')).split(" ").filter(Boolean),
   ...package,
   "effable": {
     "cli-version": version,
