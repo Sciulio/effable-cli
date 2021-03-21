@@ -5,11 +5,10 @@ const inquirer = require('inquirer');
 const glob = require("glob");
 const chalk = require('chalk');
 
-const { lookup } = require('../helpers/templates/factory');
+const { lookup, expand } = require('../helpers/templates/factory');
 const generatePackageJson = require('../helpers/package/generate');
 const installPackageJson = require('../helpers/package/installs');
 const copySourceFactory = require('../helpers/source/copy');
-const scrapeFiles = require('../helpers/source/scrape');
 
 
 const executingPath = process.cwd();
@@ -80,20 +79,20 @@ module.exports = (argv, { version }) => {
 
     outputPath = resolve(executingPath, projectName);
     template = templatesFolders.find(({ name }) => name == templateName);
+    template = expand(templateName, templatesFolders);
 
-    [
-      ...template.dependencies,
-      template
-    ]
-    .forEach(({ name, path: templatePath }) => {
+    console.log("tCtx");
+    console.log(template);
+
+    Object.entries(template.templates)
+    .forEach(([ templateName, templatePath ]) => {
       const ioItems = glob.sync(join(templatePath, '**/*'), {
         dot: true
       });
 
-      console.log(chalk.greenBright(`\nCopying template's '${name}' source:
+      console.log(chalk.greenBright(`\nCopying template's '${templateName}' source:
   from  '${templatePath}'
-  to    '${outputPath}'
-    ` ));
+  to    '${outputPath}'`));
       
       ioItems
       .forEach(copySourceFactory(templatePath, outputPath, verbose));
@@ -106,7 +105,8 @@ module.exports = (argv, { version }) => {
     debug,
     version,
     template,
-    projectName
+    projectName,
+    outputPath
   }))
   .then((pj) => {
     console.log(chalk.greenBright("\nWriting package.json file"))
@@ -118,21 +118,26 @@ module.exports = (argv, { version }) => {
     );
   })
   .then(() => console.log(chalk.green("\tpackage.json file persisted!")))
-  .then(() => console.log(`${chalk.greenBright("\nInstalling package.json dependencies")} ${chalk.cyan(`(changing current directory to '${outputPath}')`)}`))
+  .then(() => console.log(chalk.greenBright("\nInstalling package.json dependencies")))
   .then(() => installPackageJson({
     verbose,
     debug,
+    version,
     template,
+    projectName,
     outputPath
   }))
-  .then(() => console.log(chalk.green("\tpackages installed!")))
+  .then((packagesInstalled) => packagesInstalled ?
+    console.log(chalk.green("\tpackages installed!")) :
+    console.log(chalk.green("\tinstall packages later!"))
+  )
   .then(function() {
-    console.log(chalk.bgGreen.white("\n\nSUCCESS!"));
-
-    const { config: { notes } } = template;
+    const { notes } = template;
     if (notes) {
-      console.log(chalk.cyan(" - notes from template:"));
+      console.log(chalk.cyan("\nNotes from template:"));
       console.log(chalk.cyanBright(notes));
     }
+
+    console.log(chalk.bgGreen.white("\n\nSUCCESS!"));
   });
 };
