@@ -2,7 +2,7 @@ const { join } = require('path');
 const build = require('@sciulio/effable');
 
 
-const inDevelopmentMode = process.env.NODE_ENV !== 'production';
+const isProdutionMode = process.env.NODE_ENV === 'production';
 
 const {
   SERVING_URL_DOMAIN,

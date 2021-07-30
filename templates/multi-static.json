@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "1.2.1",
   "info": "Starting template. It contains example handlebarsjs file for views and partial, and markdown and yaml ones for data and content.",
   "alert": null,
   "notes": ["Hi bro!"],

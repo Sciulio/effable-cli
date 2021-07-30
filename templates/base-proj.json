@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "info": "Base template to start with. It contains root folder structure, npm useful packages and scripts to start develop an eFFable site.",
   "alert": null,
   "notes": [
@@ -10,21 +10,22 @@
   "dependencies": {},
   "package": {
     "scripts": {
-      "debug-build": "cross-env NODE_ENV=development  node -r dotenv/config ./build.js",
-      "debug-watch": "npm-watch debug-build",
+      "build-dev": "cross-env NODE_ENV=development  node -r dotenv/config ./build.js",
+      "watch-dev": "npm-watch build-dev",
+      "build-test": "cross-env NODE_ENV=production  node -r dotenv/config ./build.js dotenv_config_path=./.env.test",
       "build": "cross-env NODE_ENV=production  node -r dotenv/config ./build.js dotenv_config_path=./.env.production",
-      "start": "npm run debug-watch"
+      "start": "npm run watch-dev"
     },
     "watch": {
-      "debug-build": "./src/**/*.*"
+      "build-dev": "./src/**/*.*"
     },
     "dependencies": {
-      "@sciulio/effable": "^1.10.2",
+      "@sciulio/effable": "^1.11.3",
       "cross-env": "^7.0.3",
-      "dotenv": "^8.2.0"
+      "dotenv": "^10.0.0"
     },
     "devDependencies": {
-      "npm-watch": "^0.9.0"
+      "npm-watch": "^0.11.0"
     }
   }
 }
